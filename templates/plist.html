@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block menu %}
+      <div id="r_menu">
+		{% for m in menu%}
+	        <a href="{{m.get_category_url}}">
+	          <div class="btn btn-info" id="mb">{{ m }}
+	          	{% if m.count_products > 0 %}
+	          		<span class='badge' id='kol'>{{m.count_products}}</span>
+	          	{% endif %}
+	          </div>
+	        </a>
+		{% endfor %}
+
+      </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+			<div class="col-md-12  col-xs-12 ">
+				{% for obj in object_list %}
+					<div class="panel panel-default">
+					<div class="panel-body">
+
+
+						<div class="product">
+						<div class="row">
+					    	<a href='{{obj.get_product_url}}'>
+								<div class="col-md-9  col-xs-12 ">
+					    		<div class="productimage">
+						    		<img  class =" img-responsive" src='{{obj.img.url}}'/>
+						    	</div>	
+					    		<div class="opis">{{ obj.title }}</div>
+                                {% if obj.h %}
+					    		    <div class="opish">{{ obj.h }}</div>
+                                {% endif %}
+                            	</div>
+
+                            </a>	
+								<div class="col-md-3  col-xs-12 ">
+					    		<div class="cena">{{ obj.price }} р.</div>
+								<input type="hidden" name="item" value="{{obj.id }}">
+					    		<div class="btn btn-info buy" id="buy" >Купить</div>
+					    		</div>
+
+					    	
+						</div>
+						</div>
+
+
+
+					</div>
+					</div>	
+				{% endfor %}
+			</div>	
+
+{% endblock %}
+
+{% block jquery%}
+
+CartCount({% url 'cart_count' %});
+var rurl = {% url object_list.0.add_to_shopcart %};
+
+$('.buy').click(function(){
+	var item_id = $(this).prev().val();
+
+	$.ajax({
+		type:'GET',
+		url:rurl,
+		data:'item='+item_id+'&kol=1',
+		success:function(data){
+			Message('Данные добавлены в Вашу корзину!');
+        	CartCount({% url 'cart_count' %});
+		},
+		error:function(error){}
+	});
+});
+
+
+{% endblock %}

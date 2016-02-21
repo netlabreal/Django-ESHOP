@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+      <div id="r_menu">
+		{% for m in menu%}
+        <a href="{{m.get_category_url}}">
+          <div class="btn btn-info" id="mb">{{ m }}
+          	{% if m.count_products > 0 %}
+          		<span class='badge' id='kol'>{{m.count_products}}</span>
+          	{% endif %}
+          </div>
+        </a>
+		{% endfor %}
+
+      </div>
+{% endblock %}
+
+
+{% block content %}
+		{% for obj in object_list %}
+		    <div class="categoryitems">
+		    <a href='{{obj.get_category_url}}'>	
+				<div class="image"><img src='{{obj.img.url}}'/></div>
+				<div class="ctitle">{{obj.title}}</div>
+				{% if obj.count_products > 0 %}
+					<div class="kol">{{obj.count_products}}</div>
+				{% endif %}	
+			</a>
+		    </div>
+		{% endfor %}
+{% endblock %}
+
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+      <div id="r_menu">
+		{% for m in menu%}
+	        <a href="{{m.get_category_url}}">
+	          <div class="btn btn-info" id="mb">{{ m }}
+	          	{% if m.count_products > 0 %}
+	          		<span class='badge' id='kol'>{{m.count_products}}</span>
+	          	{% endif %}
+	          </div>
+	        </a>
+		{% endfor %}
+
+      </div>
+{% endblock %}
+
+
+{% block content %}
+{% if not real %}
+<form action="{% url 'order' %}" method="POST">{% csrf_token %}
+	{{ form.as_p}}
+	<input type="submit" value="send"/>
+	
+</form>
+{% else %}
+{{message}}
+{% endif %}
+
+{% endblock %}

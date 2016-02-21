@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+      <div id="r_menu">
+		{% for m in menu%}
+        <a href="{{m.get_category_url}}">
+          <div class="btn btn-info" id="mb">{{ m }}
+              {% if m.count_products > 0 %}
+                <span class='badge' id='kol'>{{m.count_products}}</span>
+              {% endif %}
+          </div>
+        </a>
+		{% endfor %}
+
+      </div>
+{% endblock %}
+
+
+{% block content %}
+ <div class="panel panel-default">
+    <div class="panel-heading" >Корзина товаров
+    </div>    	
+    <div class="panel-body" id="pb">
+       {% if object.kol_items > 0 %}
+
+        <table class="table">
+            <thead><tr><th>Наименование</th><th>Количество</th><th>Итого</th><th class='text-right'>Удалить</th></tr></thead>
+            <tbody>
+                {% for k in object.citem_set.all %}
+                    <tr id="{{k.item.id}}">
+                    <form id="af" action="" method="GET">
+                        <td>{{ k.item.title }}</td>
+                        
+                        <td><input type="hidden" name="item" value="{{ k.item.id }}"><input class="izm" type="number" name="kol" value="{{ k.kol}}" style="width:55px">
+                        <td id='total'>{{ k.total}}</td>
+                        <td class='text-right del'>X</td>
+                    </form>
+                    </tr>
+                {% endfor %}
+
+                <tr><td colspan='4' class='text-right alert alert-success' id='itog'>{{object.itog}}</td></tr>    
+                <tr><td colspan='4'><div class="btn btn-info" id="off" >Оформить заказ</div></td></tr>    
+
+            </tbody>
+        </table>
+
+        {% else %}
+            <h1>Корзина пуста</h1>
+        {% endif %}
+    </div>
+ </div>	
+
+<!-- -------------------------------- -->
+<div class="modal fade" id="email_form" tabindex="-1" role="dialog" aria-labelledby="r" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <form id="eform">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Введите Ваше имя"/>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Введите Ваш email">
+                        <div id="oform_b" class="btn btn-info">Оформить</div>
+                        <div id="status"></div>
+                    </form>
+            </div>
+        </div>        
+    </div>
+</div>    
+<!-- -------------------------------- -->
+{% endblock %}
+
+{% block jquery %}
+$('#oform_b').click(function(){
+//$('#status').html('<div class="alert alert-success">real</div>');
+       $.ajax({
+        type:'POST',
+        url:'{% url 'orderajax' %}',
+        data:$('#eform').serialize(),
+        success:function(data){
+            if(data['success']==false){Message('Ваш заказ не был офорлмен!! Проверьте введеные данные!');}
+            else{
+                Message('Ваш заказ был офорлмен! На Ваш адрес '+data['email']+' отправлено письмо!');
+                $('#pb').html('');$('#pb').append('<h1>Корзина пуста</h1>');
+                CartCount({% url 'cart_count' %});
+                $('#email_form').modal("hide");
+            }
+
+        },
+        error:function(error){}
+    });
+
+});
+
+$('#off').click(function(){
+    $('#email_form').modal("show");
+    $('#status').html('');
+    $('#name').val('');
+    $('#email').val('');
+});
+$('#kol_cart').text({{object.kol_items}});
+
+$('#sub-btn').click(function(){
+   Message("Данные были изменены!"); 
+});
+
+//alert($('#kol_cart').text());
+
+$('.del').click(function(){
+var th = $(this).parent();
+var item =$(this).prev().prev().find("input[type='hidden']").val();
+var total = $(this).parent().next('#total');
+var itog = $('#itog');
+$.ajax({
+    type:'GET',
+    url:{% url 'cartt' %},
+    data:{item:item,delete:'True'},
+    success:function(data){
+        Message('Данные были изменены!');
+        $('#kol_cart').text(data.kol);
+        total.text(data.total);
+        itog.text(data.itog);
+        th.detach(); 
+        if (data.kol==0){$('#pb').html('');$('#pb').append('<h1>Корзина пуста</h1>');}
+    },
+    error:function(error){console.log(error);}
+});
+   
+});
+
+$('.izm').change(function(){
+    if ($(this).val()<=0){
+        $(this).val(1);
+    }
+    else{
+        var item =$(this).prev("input[type='hidden']").val();
+        var total = $(this).parent().next('#total');
+        var kol = $(this).val();
+        var itog = $('#itog');
+        $.ajax({
+            type: 'GET',
+            url: {% url 'cartt' %},
+            data: {item:item,kol:kol},
+            success: function(data){
+                Message('Данные были изменены!');
+                $('#kol_cart').text(data.kol);
+                total.text(data.total);
+                itog.text(data.itog);
+                //$('tbody').html('');
+            },
+            error: function(error){}
+        });
+
+
+    }
+});
+
+
+{% endblock %}

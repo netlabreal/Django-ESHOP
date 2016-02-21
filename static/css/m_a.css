@@ -1,0 +1,149 @@
+/* MENU CONF*/
+
+.menu {
+    position: fixed;
+    left: -200px;
+    width: 260px;
+    height: 100%;
+    top: 0;
+    z-index: 10;
+    text-align: left;
+}
+.menu.menu-open {
+    right: 0px;
+}
+
+.menu-wrap {
+    position: absolute;
+    top: 0;
+    right: 60px;
+    background: #c4e3f3;
+    width: 200px;
+    height: 100%;
+}
+
+.menu.menu-open {
+    left: 0px;
+}
+
+#menuToggle {
+    position: absolute;
+    top: 5px;
+    right: -10px;
+    z-index: 11;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #000000;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    background: rgba(0,0,0,0);
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -ms-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.menu,
+.body-push {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+
+.menu a:active {
+    color: #ffffff;
+}
+
+.menu a > i {
+    float: left;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    width: 25px;
+    font-size: 14px;
+    line-height: 40px;
+    margin: 25px 2px;
+}
+
+.menu-close {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    font-size: 14px;
+    color: #808080;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    top: 20px;
+    right: 5px;
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -ms-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.menu-close:hover {
+    color: #ffffff;
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -ms-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.body-push-toleft {
+    right: -200px;
+}
+
+.menu h1.logo a {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 40px;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+#m_content{
+    margin-top: 20px;
+}
+#ic_m{
+    float: left;
+    margin-right: 10px;
+}
+#ic_d{
+    float: left;
+    margin-right: 10px;
+    color: grey;
+}
+#exit{
+    font-weight: bold;
+    color: Blue;
+    float: right;
+}
+#uid{
+    font-weight: bold;
+    color: Blue;
+    float: right;
+    font-size: medium;
+    margin-right: 10px;
+    font-family: 'Oswald', sans-serif;
+}
+#mypb{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.logo, #zagr, #options, #adresa{
+    width: 90%;
+    margin-left: 5%;
+}

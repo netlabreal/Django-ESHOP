@@ -1,0 +1,28 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+
+{% block title %}1111{% endblock %}
+
+{% block content %}
+<div class='row'>
+<div class='col-sm-6 col-sm-offset-3'>
+<h1>Register for free!</h1>
+<form method="post" action="">
+11111
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <input class='btn btn-block btn-primary' type="submit" value="{% trans 'Join' %}" />
+</form>
+</div>
+</div>
+
+<hr/>
+<div class='row'>
+<div class='col-sm-6 col-sm-offset-3 text-align-center'>
+<p>Need to <a href="{% url 'auth_login' %}">Login</a>?</p>
+</div>
+</div>
+
+
+{% endblock %}
